@@ -1,5 +1,7 @@
 package com.mao.blogredissystem.service;
 
+import com.mao.blogredissystem.dao.UserDao;
+import com.mao.blogredissystem.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -14,13 +16,20 @@ public class UserService {
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private UserDao userDao;
 
     public void addObject(String name) {
         redisTemplate.opsForValue().set("name", name);
     }
 
-    public String getObject(String name) {
-        return String.valueOf(redisTemplate.opsForValue().get(name));
+    public User getUserByToken(String token) {
+        Object user = redisTemplate.opsForValue().get(token);
+        if (null == user) {
+            User user1 = userDao.findByToken(token);
+            return user1;
+        }
+        return null;
     }
 
 }

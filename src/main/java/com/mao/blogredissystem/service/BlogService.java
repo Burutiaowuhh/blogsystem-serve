@@ -1,6 +1,7 @@
 package com.mao.blogredissystem.service;
 
 import com.mao.blogredissystem.entity.Blog;
+import com.mao.blogredissystem.entity.User;
 
 /**
  * @Classname BlogService
@@ -14,4 +15,11 @@ public interface BlogService {
 
     Blog getBlogById(Long id);
 
+    /**
+     * 更新点赞数
+     *
+     * @param user
+     * @param blogId
+     */
+    boolean addLikeCount(User user, Long blogId);
 }
